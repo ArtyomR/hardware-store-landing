@@ -1,0 +1,14 @@
+# Служебные файлы
+*.log
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Временные папки
+candidates/
+tmp/
+temp/
+
+# Служебные директории инструментов
+.node_modules/
+__pycache__/

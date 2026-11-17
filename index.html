@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Хозмаг — готовые комплекты инструментов и бытовой химии</title>
+  <meta name="description" content="Хозмаг: соберём комплект инструментов и химии под вашу задачу за 5 минут. Консультанты-практики сэкономят до 30% бюджета. Доставка за 120 минут." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ============ БАЗА ============ */
+    :root {
+      --bg: #f2f8fd;
+      --ink: #12293e;
+      --muted: rgba(18, 41, 62, .62);
+      --blue: #1f8ded;
+      --blue-2: #45c6f5;
+      --grad: linear-gradient(135deg, #1c86e6 0%, #3fc2f5 100%);
+      --gold: #ffc94d;
+      --gold-ink: #5c3d00;
+      --radius: 24px;
+      --shadow: 0 24px 60px -24px rgba(23, 90, 150, .28);
+      --shadow-sm: 0 12px 34px -14px rgba(23, 90, 150, .22);
+      --glass: linear-gradient(135deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.46) 100%);
+      --glass-border: rgba(255,255,255,.8);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+    section { scroll-margin-top: 96px; }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ============ ФОН: ГОЛУБОЙ ГРАДИЕНТ + BLOBS ============ */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(1200px 800px at 85% -10%, rgba(69, 198, 245, .35), transparent 60%),
+        radial-gradient(1000px 700px at -10% 30%, rgba(31, 141, 237, .22), transparent 60%),
+        radial-gradient(900px 700px at 70% 110%, rgba(69, 198, 245, .25), transparent 60%),
+        linear-gradient(180deg, #eaf5fd 0%, #f4fafd 45%, #eef7fd 100%);
+    }
+
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: .55;
+      z-index: -1;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .blob-1 { width: 480px; height: 480px; top: -140px; right: -120px; background: radial-gradient(circle, rgba(63,194,245,.55), transparent 70%); animation: blobFloat 14s ease-in-out infinite alternate; }
+    .blob-2 { width: 420px; height: 420px; top: 40%; left: -180px; background: radial-gradient(circle, rgba(31,141,237,.4), transparent 70%); animation: blobFloat 17s ease-in-out infinite alternate-reverse; }
+    .blob-3 { width: 380px; height: 380px; bottom: -140px; right: 12%; background: radial-gradient(circle, rgba(120,220,255,.5), transparent 70%); animation: blobFloat 20s ease-in-out infinite alternate; }
+
+    @keyframes blobFloat {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(60px, -50px) scale(1.15); }
+    }
+
+    /* ============ СТЕКЛО ============ */
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    /* ============ ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity .9s ease, transform .9s cubic-bezier(.16, 1, .3, 1);
+      transition-delay: var(--d, 0s);
+      will-change: opacity, transform;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ============ КНОПКИ ============ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 700;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s, filter .35s;
+      white-space: nowrap;
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -80%;
+      width: 60%; height: 100%;
+      background: linear-gradient(105deg, transparent, rgba(255,255,255,.45), transparent);
+      transform: skewX(-20deg);
+      transition: left .6s ease;
+    }
+    .btn:hover::after { left: 130%; }
+
+    .btn-primary {
+      background: var(--grad);
+      color: #fff;
+      font-size: 1.05rem;
+      padding: 19px 36px;
+      box-shadow: 0 16px 38px -10px rgba(28, 134, 230, .55);
+    }
+    .btn-small {
+      background: var(--grad);
+      color: #fff;
+      font-size: .92rem;
+      padding: 12px 24px;
+      box-shadow: 0 10px 24px -8px rgba(28, 134, 230, .5);
+    }
+    .btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      filter: brightness(1.06);
+      box-shadow: 0 22px 48px -10px rgba(28, 134, 230, .6);
+    }
+    .btn:active { transform: translateY(0) scale(.98); }
+
+    .btn-ghost {
+      border: 1.5px solid rgba(31, 141, 237, .4);
+      color: var(--blue);
+      background: rgba(255,255,255,.5);
+      font-size: .9rem;
+      padding: 10px 18px;
+      border-radius: 14px;
+      transition: all .3s;
+    }
+    .btn-ghost:hover {
+      background: var(--grad);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -8px rgba(28,134,230,.45);
+    }
+
+    /* ============ ШАПКА ============ */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      padding: 14px 0;
+      transition: all .4s;
+    }
+    .header.scrolled {
+      padding: 8px 0;
+    }
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 10px 22px;
+      background: rgba(255,255,255,.62);
+      backdrop-filter: blur(18px) saturate(1.5);
+      -webkit-backdrop-filter: blur(18px) saturate(1.5);
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px -14px rgba(23, 90, 150, .3);
+    }
+    .header.scrolled .container { box-shadow: 0 16px 40px -14px rgba(23, 90, 150, .38); }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -.02em;
+    }
+    .logo-icon {
+      width: 42px; height: 42px;
+      border-radius: 13px;
+      background: var(--grad);
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 18px -6px rgba(28,134,230,.55);
+    }
+    .logo span small { display: block; font-size: .68rem; font-weight: 500; color: var(--muted); line-height: 1; margin-top: 2px; }
+
+    .nav { display: flex; gap: 30px; }
+    .nav a {
+      font-weight: 600;
+      font-size: .95rem;
+      color: rgba(18,41,62,.75);
+      position: relative;
+      transition: color .3s;
+    }
+    .nav a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -6px;
+      width: 0; height: 2.5px;
+      border-radius: 2px;
+      background: var(--grad);
+      transition: width .35s cubic-bezier(.16,1,.3,1);
+    }
+    .nav a:hover { color: var(--blue); }
+    .nav a:hover::after { width: 100%; }
+
+    .header-actions { display: flex; align-items: center; gap: 16px; }
+    .header-phone { font-weight: 800; font-size: .95rem; white-space: nowrap; }
+
+    .burger {
+      display: none;
+      width: 44px; height: 44px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(255,255,255,.9);
+      font-size: 1.2rem;
+      transition: background .3s;
+    }
+    .burger:hover { background: #fff; }
+
+    /* ============ HERO ============ */
+    .hero {
+      position: relative;
+      padding: 168px 0 90px;
+      overflow: clip;
+    }
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.9);
+      box-shadow: var(--shadow-sm);
+      font-size: .85rem;
+      font-weight: 700;
+      color: rgba(18,41,62,.8);
+      margin-bottom: 26px;
+    }
+    .chip .dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+      box-shadow: 0 0 0 4px rgba(34,197,94,.18);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(34,197,94,.18); }
+      50%      { box-shadow: 0 0 0 7px rgba(34,197,94,.08); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+      line-height: 1.13;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 22px;
+    }
+    .hero h1 .grad-text {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
+    .hero-sub b { color: var(--ink); }
+
+    .hero-cta { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+    .hero-note {
+      font-size: .86rem;
+      color: var(--muted);
+      max-width: 460px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .hero-note svg { flex-shrink: 0; margin-top: 2px; }
+
+    .hero-stats {
+      display: flex;
+      gap: 34px;
+      margin-top: 42px;
+      flex-wrap: wrap;
+    }
+    .hero-stat b {
+      display: block;
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-stat span { font-size: .82rem; color: var(--muted); font-weight: 600; }
+
+    /* Коллаж */
+    .hero-visual {
+      position: relative;
+      height: 520px;
+      perspective: 1000px;
+    }
+    .hv-inner {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      transition: transform .35s ease-out;
+    }
+    .hv-card {
+      position: absolute;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px -20px rgba(23,90,150,.35);
+      will-change: transform;
+    }
+    .hv-card img { width: 100%; height: 100%; object-fit: cover; }
+    .hv-chat { animation: floatY 6s ease-in-out infinite; }
+    .hv-tool { animation: floatY 7.5s ease-in-out infinite reverse; }
+    .hv-chem { animation: floatY 8.5s ease-in-out infinite; }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-14px); }
+    }
+
+    .hv-float-tag {
+      position: absolute;
+      padding: 12px 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.8);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.95);
+      box-shadow: var(--shadow-sm);
+      font-weight: 700;
+      font-size: .92rem;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      will-change: transform;
+    }
+    .hv-float-tag .em { font-size: 1.15rem; }
+    .tag-save { top: 6%; left: -4%; animation: floatY 6.5s ease-in-out infinite; }
+    .tag-deliv { bottom: 16%; right: -2%; animation: floatY 7s ease-in-out infinite reverse; }
+    .tag-stock { top: 46%; right: -6%; animation: floatY 8s ease-in-out infinite; }
+
+    /* ============ СЕКЦИИ ОБЩЕЕ ============ */
+    .section { padding: 96px 0; }
+    .section-head { text-align: center; max-width: 780px; margin: 0 auto 56px; }
+    .section-head .chip { margin-bottom: 20px; }
+    .section-head h2 {
+      font-size: clamp(1.75rem, 3.6vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -.025em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-head p { color: var(--muted); font-size: 1.05rem; }
+    .grad-text {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* ============ БОЛИ ============ */
+    .pains-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+    .pain-card {
+      padding: 34px 30px;
+      transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s;
+      position: relative;
+      overflow: hidden;
+    }
+    .pain-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 34px 70px -24px rgba(23,90,150,.4);
+    }
+    .pain-card::before {
+      content: '';
+      position: absolute;
+      top: -60%; right: -30%;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,201,77,.16), transparent 70%);
+      transition: transform .6s;
+    }
+    .pain-card:hover::before { transform: translate(-40px, 40px); }
+
+    .pain-icon {
+      width: 58px; height: 58px;
+      border-radius: 18px;
+      background: var(--grad);
+      display: grid;
+      place-items: center;
+      font-size: 1.6rem;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 22px -8px rgba(28,134,230,.5);
+      transition: transform .4s cubic-bezier(.16,1,.3,1);
+    }
+    .pain-card:hover .pain-icon { transform: rotate(-8deg) scale(1.1); }
+
+    .pain-label {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: rgba(18,41,62,.55);
+      margin-bottom: 10px;
+    }
+    .pain-card p { font-size: .98rem; color: rgba(18,41,62,.85); margin-bottom: 18px; }
+
+    .pain-result {
+      background: linear-gradient(135deg, rgba(255,201,77,.28), rgba(255,201,77,.12));
+      border: 1px solid rgba(255,201,77,.4);
+      border-radius: 16px;
+      padding: 14px 18px;
+    }
+    .pain-result .pain-label {
+      color: rgba(92,61,0,.75);
+      margin-bottom: 4px;
+    }
+    .pain-result p { font-size: .93rem; font-weight: 700; margin: 0; color: var(--gold-ink); }
+
+    /* ============ РЕШЕНИЕ ============ */
+    .solution-list { display: flex; flex-direction: column; gap: 22px; max-width: 980px; margin: 0 auto; }
+    .solution-row {
+      display: grid;
+      grid-template-columns: 1fr 64px 1fr;
+      align-items: center;
+      gap: 10px;
+      padding: 30px 34px;
+      transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s;
+    }
+    .solution-row:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 30px 64px -22px rgba(23,90,150,.38);
+    }
+    .solution-cell { display: flex; gap: 16px; align-items: flex-start; }
+    .solution-cell .num {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .solution-cell.we .num   { background: rgba(31,141,237,.12); color: var(--blue); }
+    .solution-cell.you .num  { background: rgba(34,197,94,.14); color: #16a34a; }
+    .solution-cell .pain-label { margin-bottom: 6px; }
+    .solution-cell p { font-size: .96rem; margin: 0; }
+    .solution-cell.you p { font-weight: 700; }
+
+    .solution-arrow {
+      width: 52px; height: 52px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: var(--grad);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      box-shadow: 0 12px 26px -8px rgba(28,134,230,.55);
+      transition: transform .4s cubic-bezier(.16,1,.3,1);
+    }
+    .solution-row:hover .solution-arrow { transform: scale(1.15) rotate(8deg); }
+
+    /* ============ ВИТРИНА ============ */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+    .product-card {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s;
+    }
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 36px 72px -24px rgba(23,90,150,.42);
+    }
+    .product-img {
+      position: relative;
+      aspect-ratio: 1 / .85;
+      overflow: hidden;
+      background: linear-gradient(160deg, rgba(255,255,255,.9), rgba(214,240,252,.7));
+      display: grid;
+      place-items: center;
+    }
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .55s cubic-bezier(.16,1,.3,1);
+    }
+    .product-card:hover .product-img img { transform: scale(1.09) rotate(-2deg); }
+
+    .product-price-badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      padding: 9px 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffd25f, #ffb340);
+      color: var(--gold-ink);
+      font-weight: 800;
+      font-size: .95rem;
+      box-shadow: 0 10px 22px -8px rgba(255,179,64,.55);
+      transform: rotate(2deg);
+      transition: transform .4s cubic-bezier(.16,1,.3,1);
+    }
+    .product-card:hover .product-price-badge { transform: rotate(-2deg) scale(1.08); }
+
+    .product-body { padding: 24px 26px 26px; display: flex; flex-direction: column; flex: 1; }
+    .product-body h3 {
+      font-size: 1.06rem;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+    .product-body .desc {
+      font-size: .88rem;
+      color: var(--muted);
+      flex: 1;
+      margin-bottom: 20px;
+    }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .product-price { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
+
+    /* ============ ОФФЕР ============ */
+    .offer-panel {
+      padding: 56px 54px;
+      position: relative;
+      overflow: hidden;
+    }
+    .offer-panel::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(63,194,245,.22), transparent 70%);
+      pointer-events: none;
+    }
+    .offer-top {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .offer-info h2 {
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -.025em;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .offer-info > p { color: var(--muted); font-size: 1.04rem; margin-bottom: 32px; max-width: 480px; }
+
+    .offer-benefits { display: flex; flex-direction: column; gap: 16px; margin-bottom: 34px; }
+    .benefit {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(255,255,255,.9);
+      transition: transform .35s cubic-bezier(.16,1,.3,1), background .35s;
+    }
+    .benefit:hover {
+      transform: translateX(8px);
+      background: rgba(255,255,255,.85);
+    }
+    .benefit .b-icon {
+      flex-shrink: 0;
+      width: 46px; height: 46px;
+      border-radius: 14px;
+      background: var(--grad);
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 18px -6px rgba(28,134,230,.45);
+    }
+    .benefit p { font-size: .95rem; color: rgba(18,41,62,.88); }
+    .benefit b { display: block; font-size: 1rem; margin-bottom: 2px; }
+
+    .offer-note {
+      font-size: .86rem;
+      color: var(--muted);
+      max-width: 460px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .offer-side { display: flex; flex-direction: column; gap: 20px; }
+
+    .warn-card {
+      background: linear-gradient(135deg, rgba(255,201,77,.32), rgba(255,201,77,.12));
+      border: 1px solid rgba(255,201,77,.5);
+      border-radius: 20px;
+      padding: 24px 26px;
+    }
+    .warn-card .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--gold-ink);
+      margin-bottom: 10px;
+    }
+    .warn-card p { font-size: .92rem; color: rgba(92,61,0,.9); }
+
+    .guarantee-card {
+      background: linear-gradient(135deg, rgba(63,194,245,.2), rgba(31,141,237,.08));
+      border: 1px solid rgba(63,194,245,.4);
+      border-radius: 20px;
+      padding: 24px 26px;
+    }
+    .guarantee-card .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+    .guarantee-card p { font-size: .92rem; color: rgba(18,41,62,.85); }
+
+    /* Форма в оффере */
+    .order-card {
+      padding: 34px 32px;
+      border-radius: 24px;
+    }
+    .order-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -.02em; }
+    .order-card > p { font-size: .88rem; color: var(--muted); margin-bottom: 22px; }
+    .order-card input, .modal input {
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 15px;
+      border: 1.5px solid rgba(31,141,237,.22);
+      background: rgba(255,255,255,.85);
+      font-family: inherit;
+      font-size: .98rem;
+      color: var(--ink);
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .order-card input:focus, .modal input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(31,141,237,.14);
+    }
+    .order-card .btn, .modal .btn { width: 100%; }
+
+    /* Яндекс Форма */
+    .ya-form-card { padding: 14px; overflow: hidden; }
+    .ya-form-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      text-align: center;
+      padding: 16px 16px 14px;
+      margin: 0;
+    }
+    .ya-form-card iframe {
+      display: block;
+      max-width: 100%;
+      min-height: 420px;
+      border: 0;
+      border-radius: 14px;
+    }
+    .order-card .privacy, .modal .privacy {
+      font-size: .76rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .form-success {
+      text-align: center;
+      padding: 30px 10px;
+    }
+    .form-success .check {
+      width: 64px; height: 64px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 1.7rem;
+      animation: popIn .5s cubic-bezier(.16,1,.3,1);
+    }
+    @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+    .form-success b { display: block; font-size: 1.1rem; margin-bottom: 6px; }
+    .form-success span { font-size: .88rem; color: var(--muted); }
+
+    /* ============ ФУТЕР ============ */
+    .footer {
+      padding: 70px 0 34px;
+    }
+    .footer-panel {
+      padding: 48px 54px 40px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr .8fr;
+      gap: 44px;
+    }
+    .footer h4 { font-size: 1rem; font-weight: 800; margin-bottom: 16px; }
+    .footer-line {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      font-size: .95rem;
+      color: rgba(18,41,62,.82);
+    }
+    .footer-line .f-em {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      background: rgba(31,141,237,.1);
+      display: grid;
+      place-items: center;
+      font-size: 1.05rem;
+    }
+    .footer-line a { font-weight: 700; }
+    .footer-line a:hover { color: var(--blue); }
+    .footer small { color: var(--muted); font-size: .84rem; }
+
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: .95rem; color: rgba(18,41,62,.75); transition: color .3s, transform .3s; display: inline-block; }
+    .footer-links a:hover { color: var(--blue); transform: translateX(4px); }
+
+    .footer-bottom {
+      margin-top: 44px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(18,41,62,.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: .84rem;
+      color: var(--muted);
+    }
+
+    /* ============ МОДАЛКА ============ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(10, 30, 50, .4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal {
+      width: 100%;
+      max-width: 440px;
+      padding: 40px 36px;
+      transform: translateY(30px) scale(.96);
+      transition: transform .45s cubic-bezier(.16,1,.3,1);
+    }
+    .modal-overlay.open .modal { transform: none; }
+    .modal h3 { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -.02em; }
+    .modal > p { font-size: .9rem; color: var(--muted); margin-bottom: 24px; }
+    .modal-close {
+      position: absolute;
+      top: 18px; right: 18px;
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      background: rgba(18,41,62,.06);
+      font-size: 1.1rem;
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      transition: all .3s;
+    }
+    .modal-close:hover { background: rgba(18,41,62,.12); transform: rotate(90deg); }
+    .modal { position: relative; }
+
+    /* ============ АДАПТИВ ============ */
+    @media (max-width: 1020px) {
+      .hero .container { grid-template-columns: 1fr; gap: 20px; }
+      .hero-visual { height: 420px; max-width: 560px; margin: 0 auto; }
+      .pains-grid { grid-template-columns: 1fr 1fr; }
+      .products-grid { grid-template-columns: 1fr 1fr; }
+      .solution-row { grid-template-columns: 1fr; gap: 14px; }
+      .solution-row .solution-arrow { transform: rotate(90deg); }
+      .solution-row:hover .solution-arrow { transform: rotate(90deg) scale(1.12); }
+      .offer-top { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .header-phone { display: none; }
+    }
+    @media (max-width: 660px) {
+      .nav { display: none; }
+      .nav.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 74px; right: 18px;
+        padding: 20px 30px;
+        border-radius: 18px;
+        gap: 16px;
+      }
+      .burger { display: block; }
+      .pains-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+      .section { padding: 70px 0; }
+      .hero { padding: 130px 0 60px; }
+      .hero-visual { height: 380px; }
+      .hv-card.hv-chat { width: min(62vw, 280px) !important; }
+      .hv-card.hv-chem { width: min(48vw, 210px) !important; right: -2% !important; }
+      .hv-card.hv-tool { width: min(46vw, 200px) !important; left: 0 !important; }
+      .tag-save { left: 2%; }
+      .tag-stock { right: 0; }
+      .offer-panel { padding: 36px 24px; }
+      .footer-panel { padding: 34px 26px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Фон -->
+  <div class="bg-layer"></div>
+  <div class="blob blob-1" data-para="0.06"></div>
+  <div class="blob blob-2" data-para="-0.05"></div>
+  <div class="blob blob-3" data-para="0.08"></div>
+
+  <!-- Шапка -->
+  <header class="header" id="header">
+    <div class="container">
+      <a href="#hero" class="logo">
+        <span class="logo-icon">🧰</span>
+        <span>Хозмаг<small>инструменты и химия</small></span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#pains">Проблемы</a>
+        <a href="#solution">Решение</a>
+        <a href="#products">Каталог</a>
+        <a href="#offer">Комплект</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-phone" href="tel:+7XXXXXXXXXX">+7 (XXX) XXX-XX-XX</a>
+        <button class="btn btn-small js-open-modal">Оставить заявку</button>
+        <button class="burger" id="burger" aria-label="Меню">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero-left">
+          <div class="chip reveal" style="--d:.05s">
+            <span class="dot"></span>
+            Склад открыт — работаем ежедневно с 08:00 до 21:00
+          </div>
+          <h1 class="reveal" style="--d:.15s">
+            Закройте все бытовые и&nbsp;ремонтные задачи за&nbsp;<span class="grad-text">один визит</span>
+          </h1>
+          <p class="hero-sub reveal" style="--d:.25s">
+            Собираем комплекты от «прочистить слив» до «повесить полку».
+            Консультанты с опытом в стройке <b>сэкономят вам до 30% бюджета</b>,
+            отбраковав ненужный инструмент.
+          </p>
+          <div class="hero-cta reveal" style="--d:.35s">
+            <button class="btn btn-primary js-open-modal">Собрать мой комплект и сэкономить</button>
+          </div>
+          <p class="hero-note reveal" style="--d:.45s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4z" stroke="#1f8ded" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#1f8ded" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Нажимая кнопку, вы не платите сразу. Мы просто позвоним, чтобы уточнить список задач и назвать точную сумму до рубля.
+          </p>
+          <div class="hero-stats reveal" style="--d:.55s">
+            <div class="hero-stat"><b>1 500+</b><span>позиций на складе</span></div>
+            <div class="hero-stat"><b>до 30%</b><span>экономии бюджета</span></div>
+            <div class="hero-stat"><b>120 мин</b><span>доставка по городу</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" style="--d:.3s" id="heroVisual">
+          <div class="hv-inner">
+            <div class="hv-card hv-chat" style="width: 320px; height: 300px; top: 8%; left: 6%; border-radius: 26px;" data-para="-0.03">
+              <img src="img/product-1.webp" alt="Шуруповёрт" />
+            </div>
+            <div class="hv-card hv-chem" style="width: 230px; height: 215px; top: 2%; right: 4%; transform: rotate(4deg);" data-para="0.05">
+              <img src="img/product-4.jpg" alt="Обезжириватель" />
+            </div>
+            <div class="hv-card hv-tool" style="width: 215px; height: 205px; bottom: 2%; left: 0; transform: rotate(-4deg);" data-para="0.04">
+              <img src="img/product-2.jpg" alt="Набор ключей" />
+            </div>
+          </div>
+          <div class="hv-float-tag tag-save" data-para="0.07">
+            <span class="em">💰</span> Экономия до 30% бюджета
+          </div>
+          <div class="hv-float-tag tag-deliv" data-para="-0.06">
+            <span class="em">🚚</span> Доставка за 120 минут
+          </div>
+          <div class="hv-float-tag tag-stock" data-para="0.09">
+            <span class="em">📦</span> 1 500+ позиций
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== БОЛИ ===== -->
+    <section class="section" id="pains">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="chip"><span>😫</span> Знакомо каждому</div>
+          <h2>Знакомые ситуации, которые <span class="grad-text">крадут ваш выходной?</span></h2>
+        </div>
+        <div class="pains-grid">
+          <article class="pain-card glass reveal" style="--d:.05s">
+            <div class="pain-icon">💧</div>
+            <span class="pain-label">Ситуация</span>
+            <p>Нужно починить кран. Едете на рынок, покупаете трубу, фум-ленту, ключ. Оказывается, диаметр не тот, а ключ слизывает гайку.</p>
+            <div class="pain-result">
+              <span class="pain-label">Последствие</span>
+              <p>3 часа потерянного времени, деньги на ветер, а вода всё ещё капает.</p>
+            </div>
+          </article>
+          <article class="pain-card glass reveal" style="--d:.15s">
+            <div class="pain-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Дрель">
+                <rect x="3" y="7" width="12" height="5.5" rx="1.5"/>
+                <path d="M15 8.3h2.4v2.9H15"/>
+                <path d="M17.4 9.7h3.6"/>
+                <path d="M6.6 12.5 5.9 17.9c-.1.9.7 1.8 1.6 1.8h1.3c.9 0 1.7-.9 1.6-1.8l-.7-5.4"/>
+              </svg>
+            </div>
+            <span class="pain-label">Ситуация</span>
+            <p>Нужна дрель, чтобы повесить одну полку. Берёте дешёвую — она не сверлит бетон. Берёте дорогую профессиональную — она не окупается.</p>
+            <div class="pain-result">
+              <span class="pain-label">Последствие</span>
+              <p>Вы переплачиваете 10 000 ₽ за инструмент, который будет пылиться в шкафу.</p>
+            </div>
+          </article>
+          <article class="pain-card glass reveal" style="--d:.25s">
+            <div class="pain-icon">🧴</div>
+            <span class="pain-label">Ситуация</span>
+            <p>В ванной плесень. Покупаете 5 разных «чудо-гелей» в супермаркете.</p>
+            <div class="pain-result">
+              <span class="pain-label">Последствие</span>
+              <p>Тратите 3 000 ₽ на маркетинговые пустышки с хлором, которые портят затирку, но не убивают грибок в швах.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== РЕШЕНИЕ ===== -->
+    <section class="section" id="solution" style="padding-top: 40px;">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="chip"><span>✅</span> Наш подход</div>
+          <h2>Мы помогаем <span class="grad-text">решать Ваши проблемы</span></h2>
+        </div>
+        <div class="solution-list">
+          <div class="solution-row glass reveal" style="--d:.05s">
+            <div class="solution-cell we">
+              <span class="num">X</span>
+              <div>
+                <span class="pain-label">Мы делаем</span>
+                <p>Продаём готовые наборы — например, «Устранение засора»: трос + химия + перчатки.</p>
+              </div>
+            </div>
+            <div class="solution-arrow">→</div>
+            <div class="solution-cell you">
+              <span class="num">Y</span>
+              <div>
+                <span class="pain-label">Вы получаете</span>
+                <p>Тратите 5 минут на выбор и сразу едете решать проблему, а не искать недостающую деталь.</p>
+              </div>
+            </div>
+          </div>
+          <div class="solution-row glass reveal" style="--d:.15s">
+            <div class="solution-cell we">
+              <span class="num">X</span>
+              <div>
+                <span class="pain-label">Мы делаем</span>
+                <p>Консультанты-практики подбирают инструмент ровно под вашу разовую или постоянную нагрузку.</p>
+              </div>
+            </div>
+            <div class="solution-arrow">→</div>
+            <div class="solution-cell you">
+              <span class="num">Y</span>
+              <div>
+                <span class="pain-label">Вы получаете</span>
+                <p>Не переплачиваете за «профессиональные» линейки, которые нужны только для ежедневной стройки.</p>
+              </div>
+            </div>
+          </div>
+          <div class="solution-row glass reveal" style="--d:.25s">
+            <div class="solution-cell we">
+              <span class="num">X</span>
+              <div>
+                <span class="pain-label">Мы делаем</span>
+                <p>Продаём только профессиональную химию с указанием действующего вещества: щёлочь, кислота, энзимы.</p>
+              </div>
+            </div>
+            <div class="solution-arrow">→</div>
+            <div class="solution-cell you">
+              <span class="num">Y</span>
+              <div>
+                <span class="pain-label">Вы получаете</span>
+                <p>Убираете проблему с первого раза, покупая 1 литр концентрата вместо пяти флаконов из магазина у дома.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ВИТРИНА ===== -->
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="chip"><span>🧰</span> Витрина магазина</div>
+          <h2>Топ-6 позиций, которые должны быть в&nbsp;шкафу <span class="grad-text">у каждого владельца жилья</span></h2>
+        </div>
+        <div class="products-grid">
+          <article class="product-card glass reveal" style="--d:.05s">
+            <div class="product-img">
+              <div class="product-price-badge">4 590 ₽</div>
+              <img src="img/product-1.webp" alt="Шуруповёрт Интерскол DA-12ЭР" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <h3>Шуруповёрт Интерскол DA-12ЭР</h3>
+              <p class="desc">Хватит для сборки мебели и сверления кирпича. 2 аккумулятора в комплекте.</p>
+              <div class="product-footer">
+                <span class="product-price">4 590 ₽</span>
+                <button class="btn-ghost js-open-modal">Заказать</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card glass reveal" style="--d:.12s">
+            <div class="product-img">
+              <div class="product-price-badge">1 250 ₽</div>
+              <img src="img/product-2.jpg" alt="Набор рожковых ключей 8-24 мм" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <h3>Набор рожковых ключей 8–24 мм (8 шт)</h3>
+              <p class="desc">Хром-ванадиевый сплав. Губки не слизывают грани даже на прикипевших гайках.</p>
+              <div class="product-footer">
+                <span class="product-price">1 250 ₽</span>
+                <button class="btn-ghost js-open-modal">Заказать</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card glass reveal" style="--d:.19s">
+            <div class="product-img">
+              <div class="product-price-badge">690 ₽</div>
+              <img src="img/product-3.jpg" alt="Сантехнический трос 5 метров с ёршиком" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <h3>Сантехнический трос 5 метров с ёршиком</h3>
+              <p class="desc">Пробивает засоры в сифонах и трубах до 50 мм. Металл не ржавеет в воде.</p>
+              <div class="product-footer">
+                <span class="product-price">690 ₽</span>
+                <button class="btn-ghost js-open-modal">Заказать</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card glass reveal" style="--d:.05s">
+            <div class="product-img">
+              <div class="product-price-badge">450 ₽</div>
+              <img src="img/product-4.jpg" alt="Обезжириватель ProChem, концентрат 1 л" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <h3>Обезжириватель ProChem (концентрат 1 л)</h3>
+              <p class="desc">Разводится водой 1:10. Убирает жир с кухонных фасадов и налёт в ванной без едкого запаха.</p>
+              <div class="product-footer">
+                <span class="product-price">450 ₽</span>
+                <button class="btn-ghost js-open-modal">Заказать</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card glass reveal" style="--d:.12s">
+            <div class="product-img">
+              <div class="product-price-badge">599 ₽</div>
+              <img src="img/product-5.webp" alt="Многофункциональный лазерный уровень с линейкой и рулеткой 2,5 м" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <h3>Многофункциональный лазерный уровень с линейкой и рулеткой 2,5 м</h3>
+              <p class="desc">Лазерная разметка горизонтали и вертикали + рулетка для точного монтажа полок и карнизов.</p>
+              <div class="product-footer">
+                <span class="product-price">599 ₽</span>
+                <button class="btn-ghost js-open-modal">Заказать</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card glass reveal" style="--d:.19s">
+            <div class="product-img">
+              <div class="product-price-badge">320 ₽</div>
+              <img src="img/product-6.jpg" alt="Санитарный силиконовый герметик, белый" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <h3>Санитарный силиконовый герметик (белый)</h3>
+              <p class="desc">Содержит фунгицид. Не чернеет в швах ванной и на стыках раковин минимум 5 лет.</p>
+              <div class="product-footer">
+                <span class="product-price">320 ₽</span>
+                <button class="btn-ghost js-open-modal">Заказать</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ОФФЕР ===== -->
+    <section class="section" id="offer">
+      <div class="container">
+        <div class="offer-panel glass reveal">
+          <div class="offer-top">
+            <div class="offer-info">
+              <div class="chip"><span>🔥</span> Акция до этого четверга</div>
+              <h2>Закажите «Сборку комплекта» <span class="grad-text">под вашу задачу</span></h2>
+              <p>Подбор товаров из 1 500+ позиций на нашем складе под ваш личный чек-лист.</p>
+              <div class="offer-benefits">
+                <div class="benefit">
+                  <span class="b-icon">🏷️</span>
+                  <p><b>Скидка 15%</b> на базовый набор инструментов или бытовой химии при сборке комплекта.</p>
+                </div>
+                <div class="benefit">
+                  <span class="b-icon">🚚</span>
+                  <p><b>Доставка курьером за 120 минут</b> по городу или бесплатный самовывоз из точки на ул. Складской, 4.</p>
+                </div>
+              </div>
+              <button class="btn btn-primary js-open-modal">Собрать мой комплект и сэкономить</button>
+              <p class="offer-note" style="margin-top:16px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4z" stroke="#1f8ded" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#1f8ded" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Нажимая кнопку, вы не платите сразу. Мы просто позвоним, чтобы уточнить список задач и назвать точную сумму до рубля.
+              </p>
+            </div>
+
+            <div class="offer-side">
+              <div class="ya-form-card glass">
+                <h3 class="ya-form-title">Закажите себе сайт для бизнеса</h3>
+                <script src="https://forms.yandex.ru/_static/embed.js"></script><iframe src="https://forms.yandex.ru/u/6afb127cb9e5ca882335b0e7?iframe=1" frameborder="0" name="ya-form-6afb127cb9e5ca882335b0e7" width="650"></iframe>
+              </div>
+
+              <div class="warn-card glass">
+                <span class="tag">⚠️ Важно</span>
+                <p>Сборка комплекта со скидкой 15% действует <b>до этого четверга</b>. В пятницу мы закрываем инвентаризацию склада и формируем новые наборы на следующий месяц, поэтому не сможем принимать индивидуальные заявки.</p>
+              </div>
+
+              <div class="guarantee-card glass">
+                <span class="tag">🛡️ Гарантия</span>
+                <p>Если любая деталь из набора не подойдёт по размеру или окажется бракованной — курьер заберёт её обратно и привезёт замену <b>в течение 24 часов за наш счёт</b>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== ФУТЕР ===== -->
+  <footer class="footer" id="contacts">
+    <div class="container">
+      <div class="footer-panel glass reveal">
+        <div class="footer-grid">
+          <div>
+            <a href="#hero" class="logo" style="margin-bottom:18px;">
+              <span class="logo-icon">🧰</span>
+              <span>Хозмаг<small>инструменты и химия</small></span>
+            </a>
+            <div class="footer-line" style="margin-top:20px;">
+              <span class="f-em">📍</span>
+              <span>г. [Ваш Город], ул. Складская, 4<br /><small>есть бесплатная парковка на 15 мест</small></span>
+            </div>
+            <div class="footer-line">
+              <span class="f-em">📞</span>
+              <span><a href="tel:+7XXXXXXXXXX">+7 (XXX) XXX-XX-XX</a><br /><small>ежедневно с 08:00 до 21:00</small></span>
+            </div>
+          </div>
+          <div>
+            <h4>Меню</h4>
+            <div class="footer-links">
+              <a href="#pains">Проблемы</a>
+              <a href="#solution">Решение</a>
+              <a href="#products">Каталог</a>
+              <a href="#offer">Сборка комплекта</a>
+            </div>
+          </div>
+          <div>
+            <h4>Мы на карте</h4>
+            <div class="footer-line">
+              <span class="f-em">🅿️</span>
+              <span>Парковка — 15 мест,<br />въезд со Складской</span>
+            </div>
+            <div class="footer-line">
+              <span class="f-em">🕐</span>
+              <span>Работаем без выходных, 08:00–21:00</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 Хозмаг. Все права защищены.</span>
+          <span>Сэкономьте до 30% — соберите комплект за один визит</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== МОДАЛКА ===== -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal glass">
+      <button class="modal-close" id="modalClose" aria-label="Закрыть">✕</button>
+      <h3>Собрать мой комплект</h3>
+      <p>Оставьте номер — позвоним, уточним список задач и назовём точную сумму до рубля.</p>
+      <form class="js-form">
+        <input type="text" name="name" placeholder="Ваше имя" autocomplete="name" required />
+        <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required />
+        <button class="btn btn-primary" type="submit">Получить консультацию</button>
+        <p class="privacy">Нажимая кнопку, вы не платите сразу — это бесплатная консультация</p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    /* ---------- Появление блоков при скролле ---------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+    /* ---------- Параллакс ---------- */
+    const parallaxEls = [...document.querySelectorAll('[data-para]')];
+    let ticking = false;
+    function parallaxUpdate() {
+      const wh = window.innerHeight;
+      parallaxEls.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const centerDelta = r.top + r.height / 2 - wh / 2;
+        const speed = parseFloat(el.dataset.para);
+        el.style.setProperty('--py', (centerDelta * speed).toFixed(1) + 'px');
+      });
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(parallaxUpdate);
+        ticking = true;
+      }
+    }, { passive: true });
+    parallaxUpdate();
+
+    /* Применяем параллакс-смещение к элементам (учитывая их базовый transform через CSS var) */
+    const style = document.createElement('style');
+    style.textContent = `
+      .blob { transform: translate3d(0, var(--py, 0), 0); }
+      .hv-card { transform: translate3d(0, var(--py, 0), 0) rotate(var(--rot, 0deg)); }
+      .hv-float-tag { transform: translate3d(0, var(--py, 0), 0); }
+    `;
+    document.head.appendChild(style);
+
+    /* Базовые повороты карточек и tilt мышью */
+    document.querySelectorAll('.hv-card').forEach((el) => {
+      const m = el.style.transform.match(/rotate\(([-0-9.]+)deg\)/);
+      el.style.setProperty('--rot', m ? m[1] + 'deg' : '0deg');
+      el.style.transform = ''; /* дальше управляет CSS var */
+    });
+    const hv = document.getElementById('heroVisual');
+    if (hv && window.matchMedia('(min-width: 1021px)').matches) {
+      hv.addEventListener('mousemove', (e) => {
+        const r = hv.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        hv.querySelector('.hv-inner').style.transform =
+          `rotateY(${x * 7}deg) rotateX(${-y * 7}deg)`;
+      });
+      hv.addEventListener('mouseleave', () => {
+        hv.querySelector('.hv-inner').style.transform = '';
+      });
+    }
+
+    /* ---------- Шапка при скролле ---------- */
+    const header = document.getElementById('header');
+    const onScrollHeader = () => header.classList.toggle('scrolled', window.scrollY > 30);
+    window.addEventListener('scroll', onScrollHeader, { passive: true });
+    onScrollHeader();
+
+    /* ---------- Бургер ---------- */
+    const burger = document.getElementById('burger');
+    const nav = document.getElementById('nav');
+    burger.addEventListener('click', () => nav.classList.toggle('open'));
+    nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => nav.classList.remove('open')));
+
+    /* ---------- Модалка ---------- */
+    const modal = document.getElementById('modal');
+    const openModal = () => { modal.classList.add('open'); document.body.style.overflow = 'hidden'; };
+    const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+    document.querySelectorAll('.js-open-modal').forEach((b) => b.addEventListener('click', openModal));
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    /* ---------- Формы (демо-обработка) ---------- */
+    document.querySelectorAll('.js-form').forEach((form) => {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.innerHTML = `
+          <div class="form-success">
+            <div class="check">✓</div>
+            <b>Заявка отправлена!</b>
+            <span>Позвоним в течение 15 минут, уточним ваши задачи<br />и назовём точную сумму до рубля.</span>
+          </div>`;
+      });
+    });
+  </script>
+</body>
+</html>
